@@ -1,30 +1,48 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+
+	<router-view />
+
 </template>
 
+<script setup  lang="ts">
+import { onMounted } from "@vue/runtime-core";
+import { useManagerStore } from "./store/manager";
+const store = useManagerStore();
+
+onMounted(() => {
+	store.setToken();
+});
+</script>
+
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+div {
+	box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+.one-line-text {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+#app {
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #000;
+	min-width: 375px;
+	margin: 0 auto;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+body {
+	min-width: 375px;
+	background-color: #f2f3f5;
+	overflow: auto;
+}
+.auto-img {
+	width: 100%;
+	height: auto;
 }
 </style>
