@@ -6,7 +6,8 @@ import 'element-plus/theme-chalk/el-loading.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
+import 'animate.css';
+// import 'lib-flexible'
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)

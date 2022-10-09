@@ -136,6 +136,16 @@ const deleteType = (id: any) => {
 						});
 					},
 				});
+			} else if (res.code == "H4001") {
+				ElMessage({
+					message: res.msg,
+					type: "error",
+					offset: 0,
+					duration: 1500,
+					onClose: () => {
+						isCheck.value = false;
+					},
+				});
 			} else {
 				ElMessage({
 					message: "删除失败",

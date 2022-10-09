@@ -87,6 +87,11 @@ export const toAddClient = (msg) => {
     return request.post('/client/addClient', msg)
 }
 
+export const toRemoveClient = (msg) => {
+    return request.post('/client/removeClient', msg)
+}
+
+
 export const reqAllOrder = (msg) => {
     return request.get('/order/allOrder', {
         data: msg

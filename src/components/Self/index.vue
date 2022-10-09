@@ -20,10 +20,10 @@
 									</el-form-item>
 
 									<el-form-item label="头像" prop="img" label-width="80px">
-										<el-upload class="avatar-uploader" action="http://127.0.0.1:3001/api/manager/updateAccountImg"
-											:data="{token:token}" :show-file-list="false" :on-success="handleAvatarSuccess"
-											:before-upload="beforeAvatarUpload">
-											<img class="auto-img avatar" v-if="imageUrl" :src="baseHost +imageUrl"  />
+										<el-upload class="avatar-uploader" ref="uploadRef"
+											 :action="baseHost+'/api/manager/updateAccountImg'" :data="{token:token}" :show-file-list="false"
+											:on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :on-change="getImg">
+											<img class="auto-img avatar" v-if="imageUrl" :src="imageUrl==''?'':baseHost +imageUrl" />
 											<el-icon v-else class="avatar-uploader-icon">
 												<Plus />
 											</el-icon>
@@ -62,7 +62,7 @@
 								</div>
 							</template>
 							<div class="self-img">
-								<img class="auto-img" :src="baseHost+selfMsg.user_image" alt="">
+								<img class="auto-img" :src="selfMsg.user_image=='' ? '':baseHost+selfMsg.user_image" alt="">
 							</div>
 						</el-descriptions-item>
 
@@ -118,10 +118,13 @@ import { ElMessage } from "element-plus";
 import type { FormInstance, UploadProps } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
+import { host, port } from "@/config/host.js";
+import type { UploadInstance } from "element-plus";
 import storage from "@/utils/localStorage";
 const router = useRouter();
-const baseHost = ref("http://127.0.0.1:3001");
+const baseHost = ref(host + ":" + port);
 
+const uploadRef = ref<UploadInstance>();
 const token: any = computed(() => {
 	return managerStore.token;
 });
@@ -136,7 +139,7 @@ const selfMsg: any = computed(() => {
 
 const editMsg = () => {
 	drawerShow.value = true;
-	imageUrl.value = selfMsg.value.user_image
+	imageUrl.value = selfMsg.value.user_image;
 	console.log("edit");
 };
 let isCheck = ref(false);
@@ -205,11 +208,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
 const handleAvatarSuccess: UploadProps["onSuccess"] = (res, uploadFile) => {
 	if (res.code == "I2000") {
-		managerStore.getAccount({
-			token: token.value,
-		}).then((res)=>{
-			imageUrl.value = selfMsg.value.user_image
-		})
+		managerStore
+			.getAccount({
+				token: token.value,
+			})
+			.then((res) => {
+				imageUrl.value = selfMsg.value.user_image;
+			});
 
 		ElMessage({
 			message: res.msg,
@@ -222,6 +227,7 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (res, uploadFile) => {
 };
 
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+	console.log("rawFile",rawFile );
 	if (
 		rawFile.type !== "image/jpeg" &&
 		rawFile.type !== "image/png" &&
@@ -235,6 +241,10 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
 	}
 	return true;
 };
+
+const getImg = (uploadFile:any, uploadFiles:any) => {
+	console.log("img", uploadRef.value, uploadFile, uploadFiles);
+};
 </script>
 
 <style lang="less">
@@ -246,7 +256,7 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
 		background-color: #fff;
 		border-radius: 30px;
 
-		.self-img{
+		.self-img {
 			display: flex;
 			align-items: center;
 			width: 50px;

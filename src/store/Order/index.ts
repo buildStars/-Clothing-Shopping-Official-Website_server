@@ -16,6 +16,7 @@ export const useOrderStore = defineStore('Order', {
     actions: {
         async allOrder(msg: any) {
             let res = await reqAllOrder(msg)
+            this.allOrders = res.result
             return Promise.resolve(res)
         },
         async addOrder(msg: any) {

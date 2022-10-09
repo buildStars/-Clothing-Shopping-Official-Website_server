@@ -4,7 +4,7 @@
 			<div class="logo-img">
 				<img class="auto-img" src="@/assets/logo.png" alt="">
 			</div>
-			<div class="big-title">My客栈管理系统</div>
+			<div class="big-title">问你客栈管理系统</div>
 
 		</div>
 		<div class="register-box">
@@ -60,7 +60,7 @@ import { useRouter } from "vue-router";
 const managerStore = useManagerStore();
 const ruleFormRef = ref<FormInstance>();
 const router = useRouter();
-const radio1 = ref('男')
+const radio1 = ref("男");
 let isCheck = ref(false);
 const validatePass = (rule: any, value: any, callback: any) => {
 	if (!/^\w{6,16}$/.test(value)) {
@@ -194,6 +194,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 	justify-content: center;
 	align-items: center;
 	overflow: auto;
+	background: url("@/assets/bg.webp") center/cover no-repeat;
 
 	.el-form-item__content {
 		justify-content: center;

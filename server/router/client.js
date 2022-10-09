@@ -9,4 +9,7 @@ router.get('/allClient', auth, clientCtrl.allClient)
 
 router.post('/addClient', auth, clientValidate.addClient, clientCtrl.addClient)
 
+router.post('/removeClient', auth, clientCtrl.removeClient)
+
+
 module.exports = router

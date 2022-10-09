@@ -80,7 +80,7 @@
 							</el-select>
 						</el-form-item>
 						<el-form-item label="上传图片" prop="img">
-							<el-upload class="avatar-uploader" action="http://127.0.0.1:3001/api/room/editRoomImg"
+							<el-upload class="avatar-uploader" :action="baseHost+'/api/room/editRoomImg'"
 								:data="{token:token,id:editID}" :show-file-list="false" :on-success="handleAvatarSuccess"
 								:before-upload="beforeAvatarUpload">
 								<img v-if="imageUrl" :src="baseHost +imageUrl" class="avatar" />
@@ -147,9 +147,11 @@ import { useManagerStore } from "@/store/manager";
 import { useHomeTypeStore } from "@/store/HomeType";
 import { useRoomStore } from "@/store/Room";
 import { Plus } from "@element-plus/icons-vue";
+import { host, port } from "@/config/host.js";
+
 import type { FormInstance, UploadProps } from "element-plus";
 import { ElMessage } from "element-plus";
-const baseHost = ref("http://127.0.0.1:3001");
+const baseHost = ref(host + ":" + port);
 const ruleFormRef = ref<FormInstance>();
 const homeTypeStore = useHomeTypeStore();
 const roomStore = useRoomStore();

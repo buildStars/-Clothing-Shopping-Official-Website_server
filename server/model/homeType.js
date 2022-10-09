@@ -24,13 +24,24 @@ module.exports = {
         }
     },
     removeHomeTypeById: async (body) => {
-        let sql = 'delete from home_type where id = ?'
+        let sql = 'select id from client where room_type = (select type_name from home_type where id = ?)'
         let params = [body.id]
-        await db(sql, params)
-        return {
-            code: 'H2001',
-            msg: '删除房型成功！'
+        let res = await db(sql, params)
+        if (!res.length > 0) {
+            sql = 'delete from home_type where id = ?'
+            params = [body.id]
+            await db(sql, params)
+            return {
+                code: 'H2001',
+                msg: '删除房型成功！'
+            }
+        } else {
+            return {
+                code: 'H4001',
+                msg: '删除失败，有该类型房间正在使用中！'
+            }
         }
+
     },
     addHomeType: async (body) => {
         console.log(body);

@@ -17,3 +17,13 @@ exports.addClient = async (req, resp, next) => {
         next(error)
     }
 }
+exports.removeClient = async (req, resp, next) => {
+    try {
+        let res = await client.removeClient(req.body)
+        resp.send(res)
+    } catch (error) {
+        next(error)
+    }
+}
+
+

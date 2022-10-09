@@ -29,8 +29,8 @@
 				<el-table-column prop="info" label="说明" />
 				<el-table-column prop="price" label="收取金额" />
 				<el-table-column fixed="right" label="操作" width="120">
-					<template #default="">
-						<el-button link type="primary" size="small" @click.prevent="toOrder">
+					<template #default="scope">
+						<el-button link type="primary" size="small" @click.prevent="toOrder(scope.$index)">
 							结账
 						</el-button>
 					</template>
@@ -120,7 +120,9 @@ const drawerShow = ref(false);
 const token = computed(() => {
 	return managerStore.token;
 });
-
+const selfMsg: any = computed(() => {
+	return managerStore.selfMsg;
+});
 const allClients: any = computed(() => {
 	if (code.value.length > 0) {
 		return clientStore.allClients.filter((item: any) => {
@@ -308,10 +310,61 @@ const submitForm = (formEl: FormInstance | undefined) => {
 	});
 };
 
-const toOrder = () => {
-	orderStore.addOrder({}).then((res) => {
-
-	});
+const toOrder = (i: any) => {
+	isCheck.value = true;
+	orderStore
+		.addOrder({
+			token: token.value,
+			client_name: allClients.value[i].name,
+			client_sex: allClients.value[i].sex,
+			client_code: allClients.value[i].personal_code,
+			day: allClients.value[i].day,
+			client_phone: allClients.value[i].phone,
+			room_code: allClients.value[i].room_code,
+			price: allClients.value[i].price,
+			info: allClients.value[i].info,
+			comeAt: allClients.value[i].creatAt,
+			endAt: allClients.value[i].endAt,
+			orderAt: new Date().toLocaleString().split("/").join("-"),
+			manager_name: selfMsg.value.name,
+			manager_phone: selfMsg.value.phone,
+			room_type: allClients.value[i].room_type,
+		})
+		.then((res: any) => {
+			if (res.code == "O2002") {
+				clientStore
+					.removeClient({
+						token: token.value,
+						id: allClients.value[i].id,
+					})
+					.then((res: any) => {
+						if (res.code == "C2002") {
+							ElMessage({
+								message: res.msg,
+								type: "success",
+								offset: 0,
+								duration: 1000,
+							});
+						}
+						clientStore
+							.allClient({
+								token: token.value,
+							})
+							.then((res) => {
+								isCheck.value = false;
+							});
+						isCheck.value = false;
+					});
+			} else {
+				ElMessage({
+					message: "结账失败",
+					type: "error",
+					offset: 0,
+					duration: 1000,
+				});
+				isCheck.value = false;
+			}
+		});
 };
 </script>
 

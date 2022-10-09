@@ -6,7 +6,7 @@
 			<el-table-column label="头像" prop="user_image">
 				<template #default="scope">
 					<div class="img-box">
-						<img class="auto-img" :src="baseHost+scope.row.user_image" alt="">
+						<img class="auto-img" :src="scope.row.user_image =='' ? '':baseHost+scope.row.user_image" alt="">
 					</div>
 				</template>
 			</el-table-column>
@@ -20,11 +20,13 @@
 <script lang="ts" setup>
 import { computed, defineComponent, ref, reactive, onMounted } from "vue";
 import { useManagerStore } from "@/store/manager";
+import { host, port } from "@/config/host.js";
+
 import axios from "axios";
 import { ElMessage } from "element-plus";
 
 const managerStore = useManagerStore();
-const baseHost = ref("http://127.0.0.1:3001");
+const baseHost = ref(host + ":" + port);
 
 const token = computed(() => {
 	return managerStore.token;

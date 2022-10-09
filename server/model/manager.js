@@ -145,8 +145,8 @@ module.exports = {
             }
         }
 
-        sql = 'update manager set role_room=?,role_client=?,role_order=? where mid = ?'
-        params = [body.role_room, body.role_client, body.role_order, body.mid]
+        sql = 'update manager set role_room=?,role_client=?,role_order=?,role_power = ? where mid = ?'
+        params = [body.role_room, body.role_client, body.role_order, body.role_power, body.mid]
         await db(sql, params)
         return {
             code: 'r2000',

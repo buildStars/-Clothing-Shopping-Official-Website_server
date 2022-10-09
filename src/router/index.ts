@@ -68,10 +68,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     name: 'register',
     component: () => import('@/views/Register'),
-  }, {
-    path: '/find',
-    name: 'find',
-    component: () => import('@/views/Find'),
   },
 ]
 

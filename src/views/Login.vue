@@ -4,7 +4,7 @@
 			<div class="logo-img">
 				<img class="auto-img" src="@/assets/logo.png" alt="">
 			</div>
-			<div class="big-title">My客栈管理系统</div>
+			<div class="big-title">问你客栈管理系统</div>
 
 		</div>
 		<div class="login-box">
@@ -26,7 +26,6 @@
 						</el-form-item>
 						<div class="reg-find">
 							<el-button type="plain" size="small" @click="router.push('/register')">立即注册</el-button>
-							<el-button type="danger" size="small" @click="router.push('/find')">找回密码</el-button>
 						</div>
 						<el-form-item>
 							<el-button round size="large" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
@@ -160,6 +159,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
 	height: 100vh;
 	background-color: #242323;
+	background: url('@/assets/bg.webp') center/cover no-repeat;
 	min-width: 375px;
 	display: flex;
 	flex-direction: column;

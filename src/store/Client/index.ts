@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import {
     reqAllClient,
     toAddClient,
+    toRemoveClient
 
 } from '@/api'
 
@@ -15,20 +16,27 @@ export const useClientStore = defineStore('client', {
     actions: {
         async allClient(msg: any) {
             let res = await reqAllClient(msg)
-            if(res.code == "C2000"){
+            if (res.code == "C2000") {
                 this.allClients = res.result
             }
             return Promise.resolve(res)
         },
         async addClient(msg: any) {
 
-            console.log("addC",msg);
-            
+            console.log("addC", msg);
+
             let res = await toAddClient(msg)
             return Promise.resolve(res)
 
         },
 
+        async removeClient(msg: any) {
 
+            console.log("addC", msg);
+
+            let res = await toRemoveClient(msg)
+            return Promise.resolve(res)
+
+        },
     }
 })

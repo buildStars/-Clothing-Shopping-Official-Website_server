@@ -6,7 +6,7 @@ import {
     ElLoading
 } from 'element-plus'
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:3001/api',
+    baseURL: 'http://192.168.35.30:3001/api',
     timeout: 10000
 })
 let loading = null
